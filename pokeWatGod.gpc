@@ -1,0 +1,338 @@
+int loopToggle;
+int month;
+int phase;
+int year;
+int yearFlag;
+int saveFlag;
+
+init {
+    loopToggle = 0;
+    yearFlag = 0;
+    saveFlag = 0;
+    year = 1;
+    month = 1;
+    phase = 0;
+}
+
+main {
+    if(event_press(SWITCH_B)){
+        if(loopToggle){
+         loopToggle = 0;
+        }else{
+          loopToggle = 1;
+        }
+    }
+    if(loopToggle){
+        combo_run(comboStart);
+    }
+}
+
+combo comboStart {
+    if(saveFlag == 1 && phase == 0){
+        combo_run(save);
+    }else if(phase == 0 && yearFlag == 0){
+        combo_run(dialog);
+    }else if(phase == 0 && yearFlag == 1){
+        combo_run(moveSetting);
+    }else if(phase == 1) {
+        combo_run(moveSetting);
+    }else if(phase == 2 && yearFlag == 0){
+        //剰余の計算は適宜変更(35までを推奨)
+        if(year%25 == 0 && month%12 == 0){
+            combo_run(backYear);
+        }else if(month%12 == 0){
+            combo_run(yearChange);
+        }else{
+            combo_run(monthChange);
+        }
+    }else if(phase == 2 && yearFlag == 1){
+        combo_run(dayChange);
+    }else if(phase == 3){
+        combo_run(back);
+    }
+}
+
+combo dialog {
+    wait(100);
+    set_val(SWITCH_A, 100);
+    wait(60);
+    set_val(SWITCH_A, 0);
+    wait(300);
+    set_val(SWITCH_A, 100);
+    wait(60);
+    set_val(SWITCH_A, 0);
+    wait(300);
+    phase = 1;
+}
+
+combo moveSetting {
+    //ここまでで皆で挑戦
+    set_val(SWITCH_A, 100);
+    wait(60);
+    set_val(SWITCH_A, 0);
+    wait(1100);
+    set_val(SWITCH_A, 100);
+    wait(60);
+    set_val(SWITCH_A, 0);
+    wait(3000);
+    
+    //HOME
+    set_val(SWITCH_HOME, 100);
+    wait(60);
+    set_val(SWITCH_HOME, 0);
+    
+    //設定画面
+    wait(700);
+    set_val(SWITCH_DOWN, 100);
+    wait(60);
+    set_val(SWITCH_DOWN, 0);
+    wait(100);
+    set_val(SWITCH_RIGHT, 100);
+    wait(60);
+    set_val(SWITCH_RIGHT, 0);
+    wait(100);
+    set_val(SWITCH_RIGHT, 100);
+    wait(60);
+    set_val(SWITCH_RIGHT, 0);
+    wait(100);
+    set_val(SWITCH_RIGHT, 100);
+    wait(60);
+    set_val(SWITCH_RIGHT, 0);
+    wait(100);
+    set_val(SWITCH_RIGHT, 100);
+    wait(60);
+    set_val(SWITCH_RIGHT, 0);
+    wait(100);
+    set_val(SWITCH_A, 100);
+    wait(60);
+    set_val(SWITCH_A, 0);
+    wait(1000);
+    
+    //本体
+    set_val(SWITCH_DOWN, 100);
+    wait(1300);
+    set_val(SWITCH_DOWN, 0);
+    wait(100);
+    set_val(SWITCH_A, 100);
+    wait(60);
+    set_val(SWITCH_A, 0);
+    wait(100);
+    
+    //日付と時刻
+    set_val(SWITCH_DOWN, 100);
+    wait(60);
+    set_val(SWITCH_DOWN, 0);
+    wait(100);
+    set_val(SWITCH_DOWN, 100);
+    wait(60);
+    set_val(SWITCH_DOWN, 0);
+    wait(100);
+    set_val(SWITCH_DOWN, 100);
+    wait(60);
+    set_val(SWITCH_DOWN, 0);
+    wait(100);
+    set_val(SWITCH_DOWN, 100);
+    wait(60);
+    set_val(SWITCH_DOWN, 0);
+    wait(100);
+    set_val(SWITCH_A, 100);
+    wait(60);
+    set_val(SWITCH_A, 0);
+    wait(400);
+    set_val(SWITCH_DOWN, 100);
+    wait(60);
+    set_val(SWITCH_DOWN, 0);
+    wait(100);
+    set_val(SWITCH_DOWN, 100);
+    wait(60);
+    set_val(SWITCH_DOWN, 0);
+    wait(100);
+    set_val(SWITCH_A, 100);
+    wait(60);
+    set_val(SWITCH_A, 0);
+    wait(400);
+    phase = 2;
+}
+
+combo yearChange {
+    //年月の変更
+    set_val(SWITCH_UP, 100);
+    wait(60);
+    set_val(SWITCH_UP, 0);
+    wait(200);
+    set_val(SWITCH_RIGHT, 100);
+    wait(60);
+    set_val(SWITCH_RIGHT, 0);
+    wait(100);
+    set_val(SWITCH_UP, 100);
+    wait(60);
+    set_val(SWITCH_UP, 0);
+    wait(200);
+    set_val(SWITCH_RIGHT, 100);
+    wait(60);
+    set_val(SWITCH_RIGHT, 0);
+    wait(100);
+    set_val(SWITCH_RIGHT, 100);
+    wait(60);
+    set_val(SWITCH_RIGHT, 0);
+    wait(100);
+    set_val(SWITCH_RIGHT, 100);
+    wait(60);
+    set_val(SWITCH_RIGHT, 0);
+    wait(100);
+    set_val(SWITCH_RIGHT, 100);
+    wait(60);
+    set_val(SWITCH_RIGHT, 0);
+    wait(100);
+    set_val(SWITCH_A, 100);
+    wait(60);
+    set_val(SWITCH_A, 0);
+    wait(300);
+    year = year + 1;
+    month = month + 1;
+    phase = 3;
+    saveFlag = 1;
+}
+
+combo monthChange {
+    //月の変更
+    set_val(SWITCH_RIGHT, 100);
+    wait(60);
+    set_val(SWITCH_RIGHT, 0);
+    wait(100);
+    set_val(SWITCH_UP, 100);
+    wait(60);
+    set_val(SWITCH_UP, 0);
+    wait(200);
+    set_val(SWITCH_RIGHT, 100);
+    wait(60);
+    set_val(SWITCH_RIGHT, 0);
+    wait(100);
+    set_val(SWITCH_RIGHT, 100);
+    wait(60);
+    set_val(SWITCH_RIGHT, 0);
+    wait(100);
+    set_val(SWITCH_RIGHT, 100);
+    wait(60);
+    set_val(SWITCH_RIGHT, 0);
+    wait(100);
+    set_val(SWITCH_RIGHT, 100);
+    wait(60);
+    set_val(SWITCH_RIGHT, 0);
+    wait(100);
+    set_val(SWITCH_A, 100);
+    wait(60);
+    set_val(SWITCH_A, 0);
+    wait(300);
+    month = month + 1;
+    phase = 3;
+}
+
+combo back{
+    //画面戻る
+    set_val(SWITCH_HOME, 100);
+    wait(100);
+    set_val(SWITCH_HOME, 0);
+    wait(900);
+    set_val(SWITCH_HOME, 100);
+    wait(60);
+    set_val(SWITCH_HOME, 0);
+    wait(800);
+    
+    set_val(SWITCH_B, 100);
+    wait(60);
+    set_val(SWITCH_B, 0);
+    wait(800);
+    set_val(SWITCH_A, 100);
+    wait(60);
+    set_val(SWITCH_A, 0);
+    wait(4000);
+    phase = 0;
+}
+
+combo backYear{
+    //年月の変更
+    set_val(SWITCH_DOWN, 100);
+    wait(4000);
+    set_val(SWITCH_DOWN, 0);
+    wait(200);
+    set_val(SWITCH_RIGHT, 100);
+    wait(60);
+    set_val(SWITCH_RIGHT, 0);
+    wait(100);
+    set_val(SWITCH_UP, 100);
+    wait(60);
+    set_val(SWITCH_UP, 0);
+    wait(200);
+    set_val(SWITCH_RIGHT, 100);
+    wait(60);
+    set_val(SWITCH_RIGHT, 0);
+    wait(100);
+    set_val(SWITCH_DOWN, 100);
+    wait(60);
+    set_val(SWITCH_DOWN, 0);
+    wait(100);
+    set_val(SWITCH_RIGHT, 100);
+    wait(60);
+    set_val(SWITCH_RIGHT, 0);
+    wait(100);
+    set_val(SWITCH_RIGHT, 100);
+    wait(60);
+    set_val(SWITCH_RIGHT, 0);
+    wait(100);
+    set_val(SWITCH_RIGHT, 100);
+    wait(60);
+    set_val(SWITCH_RIGHT, 0);
+    wait(100);
+    set_val(SWITCH_A, 100);
+    wait(60);
+    set_val(SWITCH_A, 0);
+    wait(300);
+    
+    month = month + 1;
+    yearFlag = 1;
+    year = 1;
+    phase = 3;
+}
+
+combo dayChange{
+    //日の変更
+    set_val(SWITCH_RIGHT, 100);
+    wait(60);
+    set_val(SWITCH_RIGHT, 0);
+    wait(100);
+    set_val(SWITCH_RIGHT, 100);
+    wait(60);
+    set_val(SWITCH_RIGHT, 0);
+    wait(100);
+    set_val(SWITCH_UP, 100);
+    wait(60);
+    set_val(SWITCH_UP, 0);
+    wait(200);
+    set_val(SWITCH_RIGHT, 100);
+    wait(500);
+    set_val(SWITCH_RIGHT, 0);
+    wait(100);
+    set_val(SWITCH_A, 100);
+    wait(60);
+    set_val(SWITCH_A, 0);
+    wait(300);
+    phase = 3;
+    yearFlag = 0;
+}
+
+combo save{
+    set_val(SWITCH_X, 100);
+    wait(60);
+    set_val(SWITCH_X, 0);
+    wait(500);
+    set_val(SWITCH_R, 100);
+    wait(60);
+    set_val(SWITCH_R, 0);
+    wait(2500);
+    set_val(SWITCH_A, 100);
+    wait(60);
+    set_val(SWITCH_A, 0);
+    wait(4000);
+    saveFlag = 0;
+}
